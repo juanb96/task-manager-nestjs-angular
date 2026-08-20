@@ -171,8 +171,14 @@ corriendo en `http://localhost:3000` (ver sección Backend).
 
 ## Qué haría distinto con más tiempo
 
-- Persistencia real (SQLite) en vez de repositorio en memoria.
-- Tests unitarios de los componentes de Angular (por ahora solo hay tests del
-  componente raíz).
-- Paginación o búsqueda por texto en el listado.
-- Dockerfile / docker-compose para levantar todo con un solo comando.
+- **Tests unitarios aislados**: hoy solo hay tests e2e en el backend (6, sobre
+  la app completa) y tests del componente raíz en el frontend (3). Faltan
+  tests unitarios de `TaskService` mockeando `ITaskRepository` (justo donde
+  el patrón Repository se luce) y de los componentes individuales del
+  frontend (`TaskForm`, `TaskList`, `TaskItem`, `TaskBoard`, `Sidebar`, `Topbar`).
+- **Migraciones de esquema para SQLite**: hoy un cambio de esquema requiere
+  borrar el archivo `.sqlite` existente (ver la sección de Backend). Un
+  guard de `ALTER TABLE ... ADD COLUMN` en el constructor del repositorio
+  resolvería esto sin herramientas externas.
+- **Autenticación/multiusuario**: el enunciado aclara que no se requiere,
+  pero en un producto real cada usuario vería solo sus propias tareas.
