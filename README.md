@@ -52,9 +52,16 @@ La API queda disponible en `http://localhost:3000`.
 - **Manejo de errores**: `NotFoundException` de Nest para update/delete sobre
   tareas inexistentes (404); errores de validación devuelven 400
   automáticamente vía el `ValidationPipe`.
-- **Persistencia en memoria**: cumple el requisito mínimo del enunciado; el
-  repositorio está aislado detrás de una interfaz para poder reemplazarlo por
-  una implementación con SQLite/Mongo sin tocar el servicio ni el controlador.
+- **Persistencia real con SQLite**: `SqliteTaskRepository` usa el módulo
+  nativo `node:sqlite` (disponible desde Node 22+, estable en Node 24 que usa
+  este proyecto) — sin dependencias externas ni compilación nativa. La ruta
+  del archivo se configura por `DB_PATH` (`.env`); en los tests e2e se usa
+  `:memory:` para aislar cada corrida sin tocar disco. El cambio de
+  `InMemoryTaskRepository` a `SqliteTaskRepository` fue **un solo archivo**
+  (`task.module.ts`, el binding del token de DI) — es la demostración práctica
+  de por qué vale la pena el patrón Repository: el servicio y el controlador
+  no se tocaron. `InMemoryTaskRepository` se conserva en el código como
+  implementación alternativa de referencia.
 - **Prioridad de tarea** (`low` / `medium` / `high`): campo agregado para
   soportar el rediseño del frontend (tablero tipo Kanban con badges de
   prioridad). Por defecto es `medium` si no se especifica al crear.
