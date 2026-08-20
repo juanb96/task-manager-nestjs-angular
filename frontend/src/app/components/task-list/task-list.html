@@ -1,0 +1,25 @@
+<section class="task-list">
+  <div class="task-list__filter">
+    <label for="status-filter">Filtrar por estado</label>
+    <select
+      id="status-filter"
+      [value]="statusFilter()"
+      (change)="onFilterChange($any($event.target).value)"
+    >
+      <option value="all">Todas</option>
+      @for (option of statusOptions; track option) {
+        <option [value]="option">{{ statusLabels[option] }}</option>
+      }
+    </select>
+  </div>
+
+  @if (filteredTasks.length === 0) {
+    <p class="task-list__empty">No hay tareas para mostrar.</p>
+  } @else {
+    <div class="task-list__items">
+      @for (task of filteredTasks; track task.id) {
+        <app-task-item [task]="task" (edit)="edit.emit($event)" (remove)="remove.emit($event)" />
+      }
+    </div>
+  }
+</section>

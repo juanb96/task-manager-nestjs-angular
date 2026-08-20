@@ -1,0 +1,32 @@
+<form class="task-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2>{{ isEditing ? 'Editar tarea' : 'Nueva tarea' }}</h2>
+
+  <div class="field">
+    <label for="title">Título</label>
+    <input id="title" type="text" formControlName="title" placeholder="Título de la tarea" />
+    @if (form.controls.title.invalid && form.controls.title.touched) {
+      <small class="error">El título es obligatorio (máximo 200 caracteres).</small>
+    }
+  </div>
+
+  <div class="field">
+    <label for="description">Descripción</label>
+    <textarea id="description" formControlName="description" rows="3" placeholder="Descripción (opcional)"></textarea>
+  </div>
+
+  <div class="field">
+    <label for="status">Estado</label>
+    <select id="status" formControlName="status">
+      @for (option of statusOptions; track option) {
+        <option [value]="option">{{ statusLabels[option] }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="task-form__actions">
+    <button type="submit" class="primary">{{ isEditing ? 'Guardar cambios' : 'Crear tarea' }}</button>
+    @if (isEditing) {
+      <button type="button" (click)="onCancel()">Cancelar</button>
+    }
+  </div>
+</form>
