@@ -55,6 +55,9 @@ La API queda disponible en `http://localhost:3000`.
 - **Persistencia en memoria**: cumple el requisito mínimo del enunciado; el
   repositorio está aislado detrás de una interfaz para poder reemplazarlo por
   una implementación con SQLite/Mongo sin tocar el servicio ni el controlador.
+- **Prioridad de tarea** (`low` / `medium` / `high`): campo agregado para
+  soportar el rediseño del frontend (tablero tipo Kanban con badges de
+  prioridad). Por defecto es `medium` si no se especifica al crear.
 
 ## Frontend
 

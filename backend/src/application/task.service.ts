@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Task, TaskStatus } from '../domain/task.entity';
+import { Task, TaskPriority, TaskStatus } from '../domain/task.entity';
 import type { ITaskRepository } from '../domain/task.repository.interface';
 import { TASK_REPOSITORY } from '../domain/task.repository.interface';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -20,6 +20,7 @@ export class TaskService {
       title: dto.title,
       description: dto.description ?? '',
       status: dto.status ?? TaskStatus.PENDING,
+      priority: dto.priority ?? TaskPriority.MEDIUM,
     });
   }
 
@@ -28,6 +29,7 @@ export class TaskService {
     if (dto.title !== undefined) changes.title = dto.title;
     if (dto.description !== undefined) changes.description = dto.description;
     if (dto.status !== undefined) changes.status = dto.status;
+    if (dto.priority !== undefined) changes.priority = dto.priority;
 
     const updated = await this.taskRepository.update(id, changes);
     if (!updated) {
