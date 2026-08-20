@@ -1,10 +1,10 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Sidebar, BoardView } from './components/layout/sidebar/sidebar';
 import { PriorityFilter, Topbar } from './components/layout/topbar/topbar';
-import { TaskBoard } from './components/task-board/task-board';
+import { TaskBoard, TaskReorderEvent } from './components/task-board/task-board';
 import { TaskForm } from './components/task-form/task-form';
 import { StatusFilter, TaskList } from './components/task-list/task-list';
-import { CreateTaskRequest, Task, TaskStatus, UpdateTaskRequest } from './models/task.model';
+import { CreateTaskRequest, Task, UpdateTaskRequest } from './models/task.model';
 import { TaskService } from './services/task.service';
 
 @Component({
@@ -32,11 +32,16 @@ export class App implements OnInit {
     const query = this.search().trim().toLowerCase();
     const priority = this.priorityFilter();
 
-    return this.tasks().filter((task) => {
-      const matchesSearch = query === '' || task.title.toLowerCase().includes(query);
-      const matchesPriority = priority === 'all' || task.priority === priority;
-      return matchesSearch && matchesPriority;
-    });
+    return this.tasks()
+      .filter((task) => {
+        const matchesSearch = query === '' || task.title.toLowerCase().includes(query);
+        const matchesPriority = priority === 'all' || task.priority === priority;
+        return matchesSearch && matchesPriority;
+      })
+      // Updating a task in place (e.g. after a drag & drop reorder) doesn't move it
+      // within the array, so re-sort by position to keep the board/list consistent
+      // with what the backend just persisted.
+      .sort((a, b) => a.position - b.position);
   });
 
   ngOnInit(): void {
@@ -90,8 +95,8 @@ export class App implements OnInit {
     });
   }
 
-  onStatusChange(event: { id: string; status: TaskStatus }): void {
-    this.onSave({ id: event.id, changes: { status: event.status } });
+  onReorder(event: TaskReorderEvent): void {
+    this.onSave({ id: event.id, changes: { position: event.position, status: event.status } });
   }
 
   onEdit(task: Task): void {

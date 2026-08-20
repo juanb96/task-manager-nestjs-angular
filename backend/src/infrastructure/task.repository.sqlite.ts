@@ -13,6 +13,7 @@ interface TaskRow {
   status: string;
   priority: string;
   createdAt: string;
+  position: number;
 }
 
 @Injectable()
@@ -32,7 +33,8 @@ export class SqliteTaskRepository implements ITaskRepository, OnModuleDestroy {
         description TEXT NOT NULL,
         status TEXT NOT NULL,
         priority TEXT NOT NULL,
-        createdAt TEXT NOT NULL
+        createdAt TEXT NOT NULL,
+        position REAL NOT NULL
       )
     `);
   }
@@ -42,7 +44,7 @@ export class SqliteTaskRepository implements ITaskRepository, OnModuleDestroy {
   }
 
   async findAll(): Promise<Task[]> {
-    const rows = this.db.prepare('SELECT * FROM tasks ORDER BY createdAt ASC').all() as unknown as TaskRow[];
+    const rows = this.db.prepare('SELECT * FROM tasks ORDER BY position ASC').all() as unknown as TaskRow[];
     return rows.map((row) => this.toTask(row));
   }
 
@@ -60,7 +62,7 @@ export class SqliteTaskRepository implements ITaskRepository, OnModuleDestroy {
 
     this.db
       .prepare(
-        'INSERT INTO tasks (id, title, description, status, priority, createdAt) VALUES (?, ?, ?, ?, ?, ?)',
+        'INSERT INTO tasks (id, title, description, status, priority, createdAt, position) VALUES (?, ?, ?, ?, ?, ?, ?)',
       )
       .run(
         newTask.id,
@@ -69,6 +71,7 @@ export class SqliteTaskRepository implements ITaskRepository, OnModuleDestroy {
         newTask.status,
         newTask.priority,
         newTask.createdAt.toISOString(),
+        newTask.position,
       );
 
     return newTask;
@@ -81,8 +84,10 @@ export class SqliteTaskRepository implements ITaskRepository, OnModuleDestroy {
     const updated: Task = { ...existing, ...changes };
 
     this.db
-      .prepare('UPDATE tasks SET title = ?, description = ?, status = ?, priority = ? WHERE id = ?')
-      .run(updated.title, updated.description, updated.status, updated.priority, id);
+      .prepare(
+        'UPDATE tasks SET title = ?, description = ?, status = ?, priority = ?, position = ? WHERE id = ?',
+      )
+      .run(updated.title, updated.description, updated.status, updated.priority, updated.position, id);
 
     return updated;
   }
@@ -100,6 +105,7 @@ export class SqliteTaskRepository implements ITaskRepository, OnModuleDestroy {
       status: row.status as TaskStatus,
       priority: row.priority as TaskPriority,
       createdAt: new Date(row.createdAt),
+      position: row.position,
     };
   }
 }

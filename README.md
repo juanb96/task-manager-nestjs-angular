@@ -65,6 +65,20 @@ La API queda disponible en `http://localhost:3000`.
 - **Prioridad de tarea** (`low` / `medium` / `high`): campo agregado para
   soportar el rediseño del frontend (tablero tipo Kanban con badges de
   prioridad). Por defecto es `medium` si no se especifica al crear.
+- **Orden manual** (`position`, índice fraccional): al principio el listado
+  se ordenaba por `createdAt`, así que arrastrar una tarea vieja a otra
+  columna la hacía "saltar" al principio en vez de quedarse donde se soltó.
+  Se agregó `position` (número); el frontend calcula el punto medio entre
+  las dos tareas vecinas en el punto de destino (`(anterior + siguiente) / 2`)
+  y lo persiste — así solo se actualiza la tarea movida, sin tocar el resto.
+  Los IDs se asignan con `Date.now()` (estrictamente creciente incluso ante
+  creaciones en el mismo milisegundo), dando espacio de sobra para insertar
+  fracciones entre dos valores cualquiera.
+  **Limitación conocida**: como no hay sistema de migraciones, agregar esta
+  columna a una base SQLite ya existente (creada con el esquema viejo)
+  requiere borrar el archivo — `CREATE TABLE IF NOT EXISTS` no altera tablas
+  ya creadas. Con más tiempo, agregaría un guard de migración (`ALTER TABLE
+  ... ADD COLUMN` si la columna no existe) en el constructor del repositorio.
 
 ## Docker (todo en un solo comando)
 

@@ -68,6 +68,23 @@ describe('Tasks (e2e)', () => {
       .expect(400);
   });
 
+  it('respects manual reordering via the position field', async () => {
+    const a = await request(app.getHttpServer()).post('/tasks').send({ title: 'A' });
+    const b = await request(app.getHttpServer()).post('/tasks').send({ title: 'B' });
+    const c = await request(app.getHttpServer()).post('/tasks').send({ title: 'C' });
+
+    // Natural creation order is A, B, C. Move C between A and B.
+    const midpoint = (a.body.position + b.body.position) / 2;
+    await request(app.getHttpServer())
+      .put(`/tasks/${c.body.id}`)
+      .send({ position: midpoint })
+      .expect(200);
+
+    const list = await request(app.getHttpServer()).get('/tasks').expect(200);
+    const titles = list.body.map((t: { title: string }) => t.title);
+    expect(titles).toEqual(['A', 'C', 'B']);
+  });
+
   it('/tasks/:id (PUT) returns 404 for a nonexistent task', () => {
     return request(app.getHttpServer())
       .put('/tasks/does-not-exist')

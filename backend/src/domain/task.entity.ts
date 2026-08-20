@@ -17,4 +17,6 @@ export interface Task {
   status: TaskStatus;
   priority: TaskPriority;
   createdAt: Date;
+  /** Manual sort order (fractional index). Lists are sorted ascending by this field. */
+  position: number;
 }

@@ -29,6 +29,7 @@ export interface Task {
   status: TaskStatus;
   priority: TaskPriority;
   createdAt: string;
+  position: number;
 }
 
 export interface CreateTaskRequest {
@@ -43,4 +44,5 @@ export interface UpdateTaskRequest {
   description?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
+  position?: number;
 }

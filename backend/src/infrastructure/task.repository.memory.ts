@@ -8,7 +8,7 @@ export class InMemoryTaskRepository implements ITaskRepository {
   private tasks: Task[] = [];
 
   async findAll(): Promise<Task[]> {
-    return this.tasks;
+    return [...this.tasks].sort((a, b) => a.position - b.position);
   }
 
   async findById(id: string): Promise<Task | null> {
