@@ -1,12 +1,15 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Sidebar, BoardView } from './components/layout/sidebar/sidebar';
+import { PriorityFilter, Topbar } from './components/layout/topbar/topbar';
+import { TaskBoard } from './components/task-board/task-board';
 import { TaskForm } from './components/task-form/task-form';
 import { StatusFilter, TaskList } from './components/task-list/task-list';
-import { CreateTaskRequest, Task, UpdateTaskRequest } from './models/task.model';
+import { CreateTaskRequest, Task, TaskStatus, UpdateTaskRequest } from './models/task.model';
 import { TaskService } from './services/task.service';
 
 @Component({
   selector: 'app-root',
-  imports: [TaskList, TaskForm],
+  imports: [Sidebar, Topbar, TaskBoard, TaskList, TaskForm],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -16,8 +19,25 @@ export class App implements OnInit {
   readonly tasks = signal<Task[]>([]);
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
+
+  readonly view = signal<BoardView>('board');
+  readonly search = signal('');
+  readonly priorityFilter = signal<PriorityFilter>('all');
   readonly statusFilter = signal<StatusFilter>('all');
+
+  readonly isFormOpen = signal(false);
   readonly editingTask = signal<Task | null>(null);
+
+  readonly visibleTasks = computed(() => {
+    const query = this.search().trim().toLowerCase();
+    const priority = this.priorityFilter();
+
+    return this.tasks().filter((task) => {
+      const matchesSearch = query === '' || task.title.toLowerCase().includes(query);
+      const matchesPriority = priority === 'all' || task.priority === priority;
+      return matchesSearch && matchesPriority;
+    });
+  });
 
   ngOnInit(): void {
     this.loadTasks();
@@ -42,7 +62,10 @@ export class App implements OnInit {
   onCreate(dto: CreateTaskRequest): void {
     this.error.set(null);
     this.taskService.create(dto).subscribe({
-      next: (task) => this.tasks.update((tasks) => [...tasks, task]),
+      next: (task) => {
+        this.tasks.update((tasks) => [...tasks, task]);
+        this.isFormOpen.set(false);
+      },
       error: () => this.error.set('No se pudo crear la tarea.'),
     });
   }
@@ -52,6 +75,7 @@ export class App implements OnInit {
     this.taskService.update(event.id, event.changes).subscribe({
       next: (updated) => {
         this.tasks.update((tasks) => tasks.map((task) => (task.id === updated.id ? updated : task)));
+        this.isFormOpen.set(false);
         this.editingTask.set(null);
       },
       error: () => this.error.set('No se pudo actualizar la tarea.'),
@@ -66,15 +90,38 @@ export class App implements OnInit {
     });
   }
 
-  onEdit(task: Task): void {
-    this.editingTask.set(task);
+  onStatusChange(event: { id: string; status: TaskStatus }): void {
+    this.onSave({ id: event.id, changes: { status: event.status } });
   }
 
-  onCancelEdit(): void {
+  onEdit(task: Task): void {
+    this.editingTask.set(task);
+    this.isFormOpen.set(true);
+  }
+
+  onNewTask(): void {
+    this.editingTask.set(null);
+    this.isFormOpen.set(true);
+  }
+
+  onCloseForm(): void {
+    this.isFormOpen.set(false);
     this.editingTask.set(null);
   }
 
-  onFilterChange(filter: StatusFilter): void {
-    this.statusFilter.set(filter);
+  onViewChange(view: BoardView): void {
+    this.view.set(view);
+  }
+
+  onSearchChange(value: string): void {
+    this.search.set(value);
+  }
+
+  onPriorityFilterChange(value: PriorityFilter): void {
+    this.priorityFilter.set(value);
+  }
+
+  onStatusFilterChange(value: StatusFilter): void {
+    this.statusFilter.set(value);
   }
 }

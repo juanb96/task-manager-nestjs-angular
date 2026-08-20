@@ -14,19 +14,28 @@
     <textarea id="description" formControlName="description" rows="3" placeholder="Descripción (opcional)"></textarea>
   </div>
 
-  <div class="field">
-    <label for="status">Estado</label>
-    <select id="status" formControlName="status">
-      @for (option of statusOptions; track option) {
-        <option [value]="option">{{ statusLabels[option] }}</option>
-      }
-    </select>
+  <div class="field-row">
+    <div class="field">
+      <label for="status">Estado</label>
+      <select id="status" formControlName="status">
+        @for (option of statusOptions; track option) {
+          <option [value]="option">{{ statusLabels[option] }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="priority">Prioridad</label>
+      <select id="priority" formControlName="priority">
+        @for (option of priorityOptions; track option) {
+          <option [value]="option">{{ priorityLabels[option] }}</option>
+        }
+      </select>
+    </div>
   </div>
 
   <div class="task-form__actions">
     <button type="submit" class="primary">{{ isEditing ? 'Guardar cambios' : 'Crear tarea' }}</button>
-    @if (isEditing) {
-      <button type="button" (click)="onCancel()">Cancelar</button>
-    }
+    <button type="button" (click)="onCancel()">Cancelar</button>
   </div>
 </form>

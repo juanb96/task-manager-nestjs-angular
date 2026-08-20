@@ -1,0 +1,30 @@
+<section class="board" cdkDropListGroup>
+  @for (column of columns; track column.status) {
+    <div class="board__column column-{{ column.dotClass }}">
+      <header class="board__column-header">
+        <span class="dot"></span>
+        <h2>{{ column.label }}</h2>
+        <span class="count">{{ column.tasks().length }}</span>
+      </header>
+
+      <div
+        class="board__column-body"
+        cdkDropList
+        [id]="'col-' + column.status"
+        [cdkDropListData]="column.tasks()"
+        [cdkDropListConnectedTo]="['col-pending', 'col-in_progress', 'col-completed']"
+        (cdkDropListDropped)="onDrop($event, column.status)"
+      >
+        @for (task of column.tasks(); track task.id) {
+          <div cdkDrag [cdkDragData]="task" class="board__card-wrapper">
+            <app-task-item [task]="task" (edit)="edit.emit($event)" (remove)="remove.emit($event)" />
+          </div>
+        }
+
+        @if (column.tasks().length === 0) {
+          <p class="board__empty">Soltá una tarea aquí</p>
+        }
+      </div>
+    </div>
+  }
+</section>

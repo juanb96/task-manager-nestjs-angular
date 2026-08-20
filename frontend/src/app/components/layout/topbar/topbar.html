@@ -1,0 +1,44 @@
+<header class="topbar">
+  <div class="topbar__title">
+    <h1>Gestor de Tareas</h1>
+    <p>Organiza, prioriza y completa tus tareas <span class="sparkle">✦</span></p>
+  </div>
+
+  <div class="topbar__actions">
+    <button type="button" class="btn-primary" (click)="newTask.emit()">
+      <span>+</span> Nueva tarea
+    </button>
+
+    <div class="search-box">
+      <span class="search-box__icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Buscar tareas..."
+        [value]="search()"
+        (input)="onSearchInput($any($event.target).value)"
+      />
+    </div>
+
+    <div class="filter-dropdown">
+      <button type="button" class="btn-outline" (click)="toggleFilter()">
+        <span>⏷</span> Filtrar
+      </button>
+      @if (filterOpen()) {
+        <div class="filter-dropdown__menu">
+          <button type="button" [class.active]="priorityFilter() === 'all'" (click)="selectPriority('all')">
+            Todas las prioridades
+          </button>
+          @for (option of priorityOptions; track option) {
+            <button
+              type="button"
+              [class.active]="priorityFilter() === option"
+              (click)="selectPriority(option)"
+            >
+              {{ priorityLabels[option] }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</header>

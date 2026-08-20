@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-primary-soft: #eef2ff;
+
+  --color-bg-page: #f8fafc;
+  --color-bg-card: #ffffff;
+  --color-border: #e5e7eb;
+
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+
+  --status-pending-bg: #fffbeb;
+  --status-pending-dot: #f59e0b;
+  --status-pending-border: #fde68a;
+
+  --status-progress-bg: #eff6ff;
+  --status-progress-dot: #3b82f6;
+  --status-progress-border: #bfdbfe;
+
+  --status-completed-bg: #f0fdf4;
+  --status-completed-dot: #22c55e;
+  --status-completed-border: #bbf7d0;
+
+  --priority-high-bg: #dbeafe;
+  --priority-high-text: #1e40af;
+  --priority-medium-bg: #fef3c7;
+  --priority-medium-text: #92400e;
+  --priority-low-bg: #dcfce7;
+  --priority-low-text: #166534;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 20px 45px rgba(15, 23, 42, 0.18);
+
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+}
+
+button {
+  font-family: inherit;
+}

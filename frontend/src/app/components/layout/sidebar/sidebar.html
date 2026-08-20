@@ -1,0 +1,41 @@
+<aside class="sidebar">
+  <div class="sidebar__logo">
+    <span class="sidebar__logo-icon">✓</span>
+  </div>
+
+  <nav class="sidebar__nav">
+    <button
+      type="button"
+      class="sidebar__nav-item"
+      [class.active]="view() === 'board'"
+      (click)="selectView('board')"
+    >
+      <span class="sidebar__nav-icon">▤</span>
+      Tablero
+    </button>
+    <button
+      type="button"
+      class="sidebar__nav-item"
+      [class.active]="view() === 'list'"
+      (click)="selectView('list')"
+    >
+      <span class="sidebar__nav-icon">☰</span>
+      Todas las tareas
+    </button>
+  </nav>
+
+  <div class="sidebar__stats">
+    <div class="sidebar__stats-header">
+      <span class="sidebar__stats-icon">✓</span>
+      <div>
+        <strong>{{ total() }}</strong>
+        <small>tareas en total</small>
+      </div>
+    </div>
+    <div class="sidebar__stats-bar">
+      <span class="segment pending" [style.width.%]="percentOf(counts().pending)"></span>
+      <span class="segment in-progress" [style.width.%]="percentOf(counts().inProgress)"></span>
+      <span class="segment completed" [style.width.%]="percentOf(counts().completed)"></span>
+    </div>
+  </div>
+</aside>

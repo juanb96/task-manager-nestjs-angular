@@ -1,28 +1,49 @@
-<main class="app">
-  <h1>Gestor de Tareas</h1>
+<div class="app-shell">
+  <app-sidebar [view]="view()" [tasks]="tasks()" (viewChange)="onViewChange($event)" />
 
-  @if (error()) {
-    <p class="app__error">{{ error() }}</p>
-  }
-
-  <div class="app__layout">
-    <app-task-form
-      [taskToEdit]="editingTask()"
-      (create)="onCreate($event)"
-      (save)="onSave($event)"
-      (cancelEdit)="onCancelEdit()"
+  <div class="app-main">
+    <app-topbar
+      [search]="search()"
+      [priorityFilter]="priorityFilter()"
+      (newTask)="onNewTask()"
+      (searchChange)="onSearchChange($event)"
+      (priorityFilterChange)="onPriorityFilterChange($event)"
     />
 
+    @if (error()) {
+      <p class="app-error">{{ error() }}</p>
+    }
+
     @if (loading()) {
-      <p class="app__loading">Cargando tareas...</p>
+      <p class="app-loading">Cargando tareas...</p>
+    } @else if (view() === 'board') {
+      <app-task-board
+        [tasks]="visibleTasks()"
+        (edit)="onEdit($event)"
+        (remove)="onDelete($event)"
+        (statusChange)="onStatusChange($event)"
+      />
     } @else {
       <app-task-list
-        [tasks]="tasks()"
+        [tasks]="visibleTasks()"
         [statusFilter]="statusFilter()"
-        (filterChange)="onFilterChange($event)"
+        (filterChange)="onStatusFilterChange($event)"
         (edit)="onEdit($event)"
         (remove)="onDelete($event)"
       />
     }
   </div>
-</main>
+
+  @if (isFormOpen()) {
+    <div class="modal-overlay" (click)="onCloseForm()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <app-task-form
+          [taskToEdit]="editingTask()"
+          (create)="onCreate($event)"
+          (save)="onSave($event)"
+          (cancelEdit)="onCloseForm()"
+        />
+      </div>
+    </div>
+  }
+</div>
