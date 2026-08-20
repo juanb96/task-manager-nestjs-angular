@@ -3,7 +3,7 @@ import { Component, effect, input, output, signal } from '@angular/core';
 import { Task, TaskStatus } from '../../models/task.model';
 import { TaskItem } from '../task-item/task-item';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 6;
 
 interface BoardColumn {
   status: TaskStatus;
