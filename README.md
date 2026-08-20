@@ -156,6 +156,12 @@ corriendo en `http://localhost:3000` (ver sección Backend).
 - **Tests con Vitest**: el schematic por defecto de Angular 22 (`@angular/build:unit-test`)
   ya no usa Karma/Jasmine sino Vitest; se mantiene esa configuración por
   defecto en vez de forzar Karma.
+- **Tests unitarios por componente** (34 en total, además de los 3 del
+  componente raíz): `TaskForm` (validación, modo crear/editar), `TaskList`
+  (filtro), `TaskItem` (render, eventos), `TaskBoard` (paginación y el
+  cálculo de `position` al arrastrar — incluida la distinción por
+  referencia entre "misma columna" y "columna distinta"), `Sidebar` y
+  `Topbar` (eventos), y `TaskService` con `HttpClientTesting`.
 - **Rediseño tipo tablero Kanban**: sidebar (Tablero / Todas las tareas, como
   toggle de vista local, sin Angular Router — no había ninguna otra ruta que
   justificara agregarlo), topbar con búsqueda y filtro por prioridad, y un
@@ -179,11 +185,6 @@ corriendo en `http://localhost:3000` (ver sección Backend).
 
 ## Qué haría distinto con más tiempo
 
-- **Tests unitarios de componentes del frontend**: hoy solo hay tests del
-  componente raíz (3). El backend ya tiene tests unitarios de `TaskService`
-  mockeando `ITaskRepository` (ver sección Backend), pero faltan tests de
-  los componentes individuales del frontend (`TaskForm`, `TaskList`,
-  `TaskItem`, `TaskBoard`, `Sidebar`, `Topbar`).
 - **Migraciones de esquema para SQLite**: hoy un cambio de esquema requiere
   borrar el archivo `.sqlite` existente (ver la sección de Backend). Un
   guard de `ALTER TABLE ... ADD COLUMN` en el constructor del repositorio
