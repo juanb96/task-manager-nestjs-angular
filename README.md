@@ -31,6 +31,8 @@ La API queda disponible en `http://localhost:3000`.
 | PUT    | /tasks/:id   | Edita una tarea          |
 | DELETE | /tasks/:id   | Elimina una tarea        |
 
+Documentación interactiva (Swagger UI): **`http://localhost:3000/docs`**.
+
 ### Decisiones técnicas
 
 - **NestJS** como framework: trae inyección de dependencias nativa, encaja
@@ -52,6 +54,12 @@ La API queda disponible en `http://localhost:3000`.
 - **Manejo de errores**: `NotFoundException` de Nest para update/delete sobre
   tareas inexistentes (404); errores de validación devuelven 400
   automáticamente vía el `ValidationPipe`.
+- **Documentación con Swagger** (`@nestjs/swagger`, en `/docs`): se genera
+  sola a partir de los mismos decoradores de los DTOs (`@ApiProperty`) y del
+  controlador (`@ApiOperation`/`@ApiResponse`) — no es un documento aparte
+  que se pueda desactualizar, es la misma fuente de verdad que ya usa
+  `class-validator`. Excluido explícitamente del `ServeStaticModule` para
+  que no choque con los estáticos del frontend.
 - **Persistencia real con SQLite**: `SqliteTaskRepository` usa el módulo
   nativo `node:sqlite` (disponible desde Node 22+, estable en Node 24 que usa
   este proyecto) — sin dependencias externas ni compilación nativa. La ruta
