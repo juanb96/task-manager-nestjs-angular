@@ -144,6 +144,11 @@ corriendo en `http://localhost:3000` (ver sección Backend).
   "Calendario" ni "Estadísticas" en la sidebar (no las pide el enunciado y
   hubieran quedado como enlaces muertos), ni un avatar/usuario (el enunciado
   aclara que no se requiere autenticación).
+- **Desbordamiento de texto en las tarjetas**: título y descripción usan
+  `overflow-wrap: break-word` (para que una palabra larga sin espacios se
+  parta) + `-webkit-line-clamp` (2 líneas el título, 3 la descripción, con
+  "…") para que las tarjetas mantengan una altura consistente sin importar
+  cuánto texto tenga la tarea.
 
 ## Qué haría distinto con más tiempo
 
