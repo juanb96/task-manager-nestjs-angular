@@ -18,4 +18,4 @@ proyecto se desarrolla en su propia rama y se integra a `main` vía PR.
 | #10  | feat/manual-task-ordering | Fix: mover una tarea entre columnas la mandaba al principio en vez de dejarla donde se soltó; orden manual real con `position` (índice fraccional) | Mergeado | 2026-08-20 |
 | #11  | fix/new-task-appears-first | Fix: las tareas nuevas quedan primeras en su columna (contador de `position` decreciente) | Mergeado | 2026-08-20 |
 | #12  | test/backend-task-service-unit-tests | Tests unitarios de `TaskService` mockeando `ITaskRepository` (9 tests) | Mergeado | 2026-08-20 |
-| #13  | test/frontend-component-unit-tests | Tests unitarios de TaskForm/TaskList/TaskItem/TaskBoard/Sidebar/Topbar/TaskService (34 tests) | Esperando aprobación | 2026-08-20 |
+| #13  | test/frontend-component-unit-tests | Tests unitarios de TaskForm/TaskList/TaskItem/TaskBoard/Sidebar/Topbar/TaskService (34 tests) | Mergeado | 2026-08-20 |
