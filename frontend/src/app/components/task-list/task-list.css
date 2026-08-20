@@ -1,0 +1,37 @@
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.task-list__filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-list__filter label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.task-list__filter select {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  font: inherit;
+}
+
+.task-list__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.task-list__empty {
+  color: #6b7280;
+  font-style: italic;
+}

@@ -58,8 +58,47 @@ La API queda disponible en `http://localhost:3000`.
 
 ## Frontend
 
-En construcción.
+### Levantar el proyecto
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+La app queda disponible en `http://localhost:4200`. Requiere el backend
+corriendo en `http://localhost:3000` (ver sección Backend).
+
+### Componentes
+
+- `TaskForm`: formulario reactivo (crear y editar, según si recibe una tarea).
+- `TaskList`: listado con filtro por estado.
+- `TaskItem`: tarjeta individual de una tarea (editar / eliminar).
+- `App` (raíz): orquesta el estado (tareas, carga, error, edición activa) y
+  las llamadas a `TaskService`.
+
+### Decisiones técnicas
+
+- **Standalone components** en toda la app, sin `NgModule`, como pide el
+  enunciado para Angular 17+.
+- **Signals** (`signal`, `input()`, `output()`, `effect()`) en vez de
+  `@Input`/`@Output`/`EventEmitter` clásicos — es la API moderna recomendada
+  por Angular y el proyecto se generó zoneless por defecto (Angular 22).
+- **`TaskService`** inyectado con `inject()`, expone un método por operación
+  CRUD sobre `HttpClient`.
+- **Manejo de error**: la app raíz centraliza el estado de `loading`/`error` y
+  muestra un mensaje si el backend no responde.
+- **Sin variables de entorno de Angular** (`environment.ts`): la URL base de
+  la API vive en `core/api.config.ts` como constante simple, ya que el
+  alcance del proyecto no justifica configurar file replacement por ambiente.
+- **Tests con Vitest**: el schematic por defecto de Angular 22 (`@angular/build:unit-test`)
+  ya no usa Karma/Jasmine sino Vitest; se mantiene esa configuración por
+  defecto en vez de forzar Karma.
 
 ## Qué haría distinto con más tiempo
 
-Se documentará al finalizar el desarrollo.
+- Persistencia real (SQLite) en vez de repositorio en memoria.
+- Tests unitarios de los componentes de Angular (por ahora solo hay tests del
+  componente raíz).
+- Paginación o búsqueda por texto en el listado.
+- Dockerfile / docker-compose para levantar todo con un solo comando.

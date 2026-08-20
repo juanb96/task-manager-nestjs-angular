@@ -1,0 +1,81 @@
+.task-card {
+  border: 1px solid #d8dee4;
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-card__header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.task-card__description {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.92rem;
+}
+
+.task-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.4rem;
+}
+
+.task-card__footer small {
+  color: #6b7280;
+}
+
+.task-card__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.status-pending .badge {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-in_progress .badge {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-completed .badge {
+  background: #dcfce7;
+  color: #166534;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+button.danger {
+  border-color: #fca5a5;
+  color: #b91c1c;
+}

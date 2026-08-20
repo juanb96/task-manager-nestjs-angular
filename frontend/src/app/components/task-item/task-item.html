@@ -1,0 +1,18 @@
+<article class="task-card" [class]="'status-' + task().status">
+  <header class="task-card__header">
+    <h3>{{ task().title }}</h3>
+    <span class="badge">{{ statusLabels[task().status] }}</span>
+  </header>
+
+  @if (task().description) {
+    <p class="task-card__description">{{ task().description }}</p>
+  }
+
+  <footer class="task-card__footer">
+    <small>Creada: {{ task().createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+    <div class="task-card__actions">
+      <button type="button" (click)="onEdit()">Editar</button>
+      <button type="button" class="danger" (click)="onRemove()">Eliminar</button>
+    </div>
+  </footer>
+</article>

@@ -1,0 +1,28 @@
+<main class="app">
+  <h1>Gestor de Tareas</h1>
+
+  @if (error()) {
+    <p class="app__error">{{ error() }}</p>
+  }
+
+  <div class="app__layout">
+    <app-task-form
+      [taskToEdit]="editingTask()"
+      (create)="onCreate($event)"
+      (save)="onSave($event)"
+      (cancelEdit)="onCancelEdit()"
+    />
+
+    @if (loading()) {
+      <p class="app__loading">Cargando tareas...</p>
+    } @else {
+      <app-task-list
+        [tasks]="tasks()"
+        [statusFilter]="statusFilter()"
+        (filterChange)="onFilterChange($event)"
+        (edit)="onEdit($event)"
+        (remove)="onDelete($event)"
+      />
+    }
+  </div>
+</main>
