@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+**/.angular
+backend/data
+backend/public
+.git
+.gitignore
+*.md
+.env
+.env.local

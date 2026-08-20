@@ -25,7 +25,7 @@ describe('App', () => {
     fixture.detectChanges();
     expect(app).toBeTruthy();
 
-    const req = httpMock.expectOne('http://localhost:3000/tasks');
+    const req = httpMock.expectOne('/tasks');
     req.flush([]);
 
     await fixture.whenStable();
@@ -36,7 +36,7 @@ describe('App', () => {
   it('should render the app title', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
-    httpMock.expectOne('http://localhost:3000/tasks').flush([]);
+    httpMock.expectOne('/tasks').flush([]);
 
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
@@ -48,7 +48,7 @@ describe('App', () => {
     const app = fixture.componentInstance;
     fixture.detectChanges();
 
-    httpMock.expectOne('http://localhost:3000/tasks').error(new ProgressEvent('network error'));
+    httpMock.expectOne('/tasks').error(new ProgressEvent('network error'));
 
     await fixture.whenStable();
     expect(app.error()).toContain('No se pudo conectar');

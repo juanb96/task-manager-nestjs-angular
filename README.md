@@ -66,6 +66,36 @@ La API queda disponible en `http://localhost:3000`.
   soportar el rediseño del frontend (tablero tipo Kanban con badges de
   prioridad). Por defecto es `medium` si no se especifica al crear.
 
+## Docker (todo en un solo comando)
+
+```bash
+docker-compose up
+```
+
+La app completa (frontend + backend + base de datos persistida) queda
+disponible en `http://localhost:3000`, un solo contenedor, un solo puerto.
+Los datos sobreviven a `docker-compose down && docker-compose up` gracias al
+volumen `./data:/app/data`.
+
+### Decisiones técnicas
+
+- **Un solo contenedor, no dos**: el backend sirve el build de producción de
+  Angular como archivos estáticos (`@nestjs/serve-static`) desde el mismo
+  proceso Express/Nest que expone la API. Evita nginx y un segundo contenedor
+  — para el alcance de esta prueba, un runtime menos que orquestar.
+- **URLs relativas en el frontend** (`API_BASE_URL = ''`): antes apuntaban a
+  `http://localhost:3000` a fuego, lo cual rompía en cuanto la app corriera
+  bajo otro host/puerto dentro de un contenedor. En desarrollo (`ng serve`),
+  un proxy de Angular (`proxy.conf.json`) reenvía `/tasks` al backend en el
+  puerto 3000; en Docker, mismo origen, no hace falta proxy.
+- **Multi-stage build**: una etapa compila Angular, otra compila Nest, y la
+  imagen final solo copia los artefactos ya compilados + dependencias de
+  producción — la imagen no lleva código fuente ni devDependencies.
+- **Límite de memoria** (`mem_limit: 512m` en `docker-compose.yml`): evita que
+  el contenedor consuma memoria sin control.
+- **Volumen para SQLite**: `./data:/app/data` persiste el archivo `.sqlite`
+  fuera del ciclo de vida del contenedor.
+
 ## Frontend
 
 ### Levantar el proyecto
