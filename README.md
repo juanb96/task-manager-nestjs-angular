@@ -22,6 +22,28 @@ npm run start:dev
 
 La API queda disponible en `http://localhost:3000`.
 
+### Datos de ejemplo (opcional)
+
+La base arranca vacía (no hay ningún `.sqlite` versionado en el repo). Para
+tener algo para mostrar sin cargar tareas a mano:
+
+```bash
+cd backend
+npm run seed
+```
+
+Carga 6 tareas de ejemplo (2 por estado) directo con el mismo repositorio
+que usa la app — sin pasar por HTTP. Si vas a usar Docker, corré el seed
+**antes** de `docker-compose up`, apuntando a la misma carpeta que el
+contenedor monta como volumen:
+
+```bash
+cd backend
+DB_PATH=../data/tasks.sqlite npm run seed
+cd ..
+docker-compose up
+```
+
 ### Endpoints
 
 | Método | Ruta         | Descripción              |
