@@ -11,11 +11,11 @@
         class="board__column-body"
         cdkDropList
         [id]="'col-' + column.status"
-        [cdkDropListData]="column.tasks()"
+        [cdkDropListData]="pagedTasks(column)"
         [cdkDropListConnectedTo]="['col-pending', 'col-in_progress', 'col-completed']"
         (cdkDropListDropped)="onDrop($event, column.status)"
       >
-        @for (task of column.tasks(); track task.id) {
+        @for (task of pagedTasks(column); track task.id) {
           <div cdkDrag [cdkDragData]="task" class="board__card-wrapper">
             <app-task-item [task]="task" (edit)="edit.emit($event)" (remove)="remove.emit($event)" />
           </div>
@@ -25,6 +25,26 @@
           <p class="board__empty">Soltá una tarea aquí</p>
         }
       </div>
+
+      @if (totalPages(column) > 1) {
+        <footer class="board__pagination">
+          <button
+            type="button"
+            [disabled]="currentPage(column) === 1"
+            (click)="goToPage(column, currentPage(column) - 1)"
+          >
+            ‹
+          </button>
+          <span>Página {{ currentPage(column) }} de {{ totalPages(column) }}</span>
+          <button
+            type="button"
+            [disabled]="currentPage(column) === totalPages(column)"
+            (click)="goToPage(column, currentPage(column) + 1)"
+          >
+            ›
+          </button>
+        </footer>
+      }
     </div>
   }
 </section>
