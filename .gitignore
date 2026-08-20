@@ -6,6 +6,10 @@ dist/
 build/
 .angular/
 
+# Angular build copied into the backend image for single-container serving
+backend/public/*
+!backend/public/.gitkeep
+
 # Environment
 .env
 .env.local
