@@ -80,6 +80,13 @@ La API queda disponible en `http://localhost:3000`.
   requiere borrar el archivo — `CREATE TABLE IF NOT EXISTS` no altera tablas
   ya creadas. Con más tiempo, agregaría un guard de migración (`ALTER TABLE
   ... ADD COLUMN` si la columna no existe) en el constructor del repositorio.
+- **Tests unitarios de `TaskService`**: mockean `ITaskRepository` directamente
+  (`jest.Mocked<ITaskRepository>`, sin Nest `TestingModule` ni SQLite real) —
+  cubren los valores por defecto al crear, el filtrado de campos `undefined`
+  en `update`, el orden decreciente de `position`, y los casos de
+  `NotFoundException`. Es la demostración concreta de por qué vale la pena
+  el patrón Repository: el servicio se testea aislado, sin tocar una base
+  de datos real.
 
 ## Docker (todo en un solo comando)
 
@@ -172,11 +179,11 @@ corriendo en `http://localhost:3000` (ver sección Backend).
 
 ## Qué haría distinto con más tiempo
 
-- **Tests unitarios aislados**: hoy solo hay tests e2e en el backend (6, sobre
-  la app completa) y tests del componente raíz en el frontend (3). Faltan
-  tests unitarios de `TaskService` mockeando `ITaskRepository` (justo donde
-  el patrón Repository se luce) y de los componentes individuales del
-  frontend (`TaskForm`, `TaskList`, `TaskItem`, `TaskBoard`, `Sidebar`, `Topbar`).
+- **Tests unitarios de componentes del frontend**: hoy solo hay tests del
+  componente raíz (3). El backend ya tiene tests unitarios de `TaskService`
+  mockeando `ITaskRepository` (ver sección Backend), pero faltan tests de
+  los componentes individuales del frontend (`TaskForm`, `TaskList`,
+  `TaskItem`, `TaskBoard`, `Sidebar`, `Topbar`).
 - **Migraciones de esquema para SQLite**: hoy un cambio de esquema requiere
   borrar el archivo `.sqlite` existente (ver la sección de Backend). Un
   guard de `ALTER TABLE ... ADD COLUMN` en el constructor del repositorio
