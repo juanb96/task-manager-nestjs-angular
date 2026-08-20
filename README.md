@@ -71,9 +71,10 @@ La API queda disponible en `http://localhost:3000`.
   Se agregó `position` (número); el frontend calcula el punto medio entre
   las dos tareas vecinas en el punto de destino (`(anterior + siguiente) / 2`)
   y lo persiste — así solo se actualiza la tarea movida, sin tocar el resto.
-  Los IDs se asignan con `Date.now()` (estrictamente creciente incluso ante
-  creaciones en el mismo milisegundo), dando espacio de sobra para insertar
-  fracciones entre dos valores cualquiera.
+  Al crear una tarea, `position` se asigna con un contador estrictamente
+  **decreciente** (en vez de creciente) para que la tarea nueva quede primera
+  en su columna — es el comportamiento esperado de "agregar tarea" en un
+  Kanban, en vez de que aparezca al final.
   **Limitación conocida**: como no hay sistema de migraciones, agregar esta
   columna a una base SQLite ya existente (creada con el esquema viejo)
   requiere borrar el archivo — `CREATE TABLE IF NOT EXISTS` no altera tablas

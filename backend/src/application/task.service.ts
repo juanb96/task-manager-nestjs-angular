@@ -7,8 +7,9 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 
 @Injectable()
 export class TaskService {
-  // Strictly increasing even if two tasks are created within the same millisecond.
-  private lastPosition = 0;
+  // Strictly decreasing (and always below -Date.now()) so each new task sorts
+  // before every existing one, landing at the top of its column.
+  private nextNewTaskPosition = -Date.now();
 
   constructor(
     @Inject(TASK_REPOSITORY) private readonly taskRepository: ITaskRepository,
@@ -19,15 +20,15 @@ export class TaskService {
   }
 
   create(dto: CreateTaskDto): Promise<Task> {
-    this.lastPosition = Math.max(Date.now(), this.lastPosition + 1);
+    this.nextNewTaskPosition = Math.min(-Date.now(), this.nextNewTaskPosition - 1);
 
     return this.taskRepository.create({
       title: dto.title,
       description: dto.description ?? '',
       status: dto.status ?? TaskStatus.PENDING,
       priority: dto.priority ?? TaskPriority.MEDIUM,
-      // New tasks start at the end of the list; drag & drop repositions via update().
-      position: this.lastPosition,
+      // New tasks land at the top of their column; drag & drop repositions via update().
+      position: this.nextNewTaskPosition,
     });
   }
 
