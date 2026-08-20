@@ -13,6 +13,12 @@ interface BoardColumn {
   page: ReturnType<typeof signal<number>>;
 }
 
+export interface TaskReorderEvent {
+  id: string;
+  position: number;
+  status: TaskStatus;
+}
+
 @Component({
   selector: 'app-task-board',
   imports: [CdkDropListGroup, CdkDropList, CdkDrag, TaskItem],
@@ -24,7 +30,7 @@ export class TaskBoard {
 
   readonly edit = output<Task>();
   readonly remove = output<string>();
-  readonly statusChange = output<{ id: string; status: TaskStatus }>();
+  readonly reorder = output<TaskReorderEvent>();
 
   readonly columns: BoardColumn[] = [
     { status: TaskStatus.PENDING, label: 'Pendiente', dotClass: 'pending', tasks: signal<Task[]>([]), page: signal(1) },
@@ -58,6 +64,16 @@ export class TaskBoard {
     column.page.set(Math.max(1, Math.min(page, this.totalPages(column))));
   }
 
+  /** Midpoint between the two tasks that will surround `index` once the moved task is inserted. */
+  private positionForIndex(itemsWithoutMoved: Task[], index: number): number {
+    const prev = itemsWithoutMoved[index - 1];
+    const next = itemsWithoutMoved[index];
+    if (!prev && !next) return Date.now();
+    if (!prev) return next.position - 1;
+    if (!next) return prev.position + 1;
+    return (prev.position + next.position) / 2;
+  }
+
   onDrop(event: CdkDragDrop<Task[]>, targetStatus: TaskStatus): void {
     const toColumn = this.columns.find((c) => c.status === targetStatus)!;
     const toOffset = (this.currentPage(toColumn) - 1) * PAGE_SIZE;
@@ -65,11 +81,15 @@ export class TaskBoard {
 
     if (event.previousContainer === event.container) {
       const items = [...toColumn.tasks()];
-      const fromOffset = toOffset;
-      const absolutePreviousIndex = fromOffset + event.previousIndex;
-      const [moved] = items.splice(absolutePreviousIndex, 1);
+      const absolutePreviousIndex = toOffset + event.previousIndex;
+      const [removed] = items.splice(absolutePreviousIndex, 1);
+
+      const position = this.positionForIndex(items, absoluteCurrentIndex);
+      const moved = { ...removed, position };
       items.splice(absoluteCurrentIndex, 0, moved);
       toColumn.tasks.set(items);
+
+      this.reorder.emit({ id: moved.id, position, status: targetStatus });
       return;
     }
 
@@ -80,11 +100,15 @@ export class TaskBoard {
 
     const fromItems = [...fromColumn.tasks()];
     const toItems = [...toColumn.tasks()];
-    const [moved] = fromItems.splice(absolutePreviousIndex, 1);
+    const [removed] = fromItems.splice(absolutePreviousIndex, 1);
+
+    const position = this.positionForIndex(toItems, absoluteCurrentIndex);
+    const moved = { ...removed, position, status: targetStatus };
     toItems.splice(absoluteCurrentIndex, 0, moved);
+
     fromColumn.tasks.set(fromItems);
     toColumn.tasks.set(toItems);
 
-    this.statusChange.emit({ id: moved.id, status: targetStatus });
+    this.reorder.emit({ id: moved.id, position, status: targetStatus });
   }
 }

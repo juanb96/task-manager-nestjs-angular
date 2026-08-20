@@ -21,7 +21,7 @@
         [tasks]="visibleTasks()"
         (edit)="onEdit($event)"
         (remove)="onDelete($event)"
-        (statusChange)="onStatusChange($event)"
+        (reorder)="onReorder($event)"
       />
     } @else {
       <app-task-list
