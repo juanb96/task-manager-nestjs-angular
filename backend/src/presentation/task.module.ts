@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TaskController } from './task.controller';
 import { TaskService } from '../application/task.service';
 import { TASK_REPOSITORY } from '../domain/task.repository.interface';
-import { InMemoryTaskRepository } from '../infrastructure/task.repository.memory';
+import { SqliteTaskRepository } from '../infrastructure/task.repository.sqlite';
 
 @Module({
   controllers: [TaskController],
@@ -10,7 +10,7 @@ import { InMemoryTaskRepository } from '../infrastructure/task.repository.memory
     TaskService,
     {
       provide: TASK_REPOSITORY,
-      useClass: InMemoryTaskRepository,
+      useClass: SqliteTaskRepository,
     },
   ],
 })

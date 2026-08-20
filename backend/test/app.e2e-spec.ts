@@ -8,6 +8,9 @@ describe('Tasks (e2e)', () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
+    // In-memory SQLite per test run: fully isolated, nothing written to disk.
+    process.env.DB_PATH = ':memory:';
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
