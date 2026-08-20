@@ -14,4 +14,4 @@ proyecto se desarrolla en su propia rama y se integra a `main` vía PR.
 | #6   | feat/backend-sqlite-persistence | Backend: persistencia real con SQLite (`node:sqlite`), reemplaza el repositorio en memoria | Mergeado | 2026-08-20 |
 | #7   | feat/docker-single-container | Docker: un solo contenedor (frontend+backend+SQLite), `docker-compose up`, volumen persistente, límite de memoria | Mergeado | 2026-08-20 |
 | #8   | feat/frontend-board-pagination | Frontend: paginación por columna en el tablero Kanban (6 tareas/página), drag&drop con índices absolutos | Mergeado | 2026-08-20 |
-| #9   | fix/task-card-text-overflow | Fix: título/descripción largos se desbordaban de la tarjeta; `overflow-wrap` + `line-clamp` | Esperando aprobación | 2026-08-20 |
+| #9   | fix/task-card-text-overflow | Fix: título/descripción largos se desbordaban de la tarjeta; `overflow-wrap` + `line-clamp` | Mergeado | 2026-08-20 |
