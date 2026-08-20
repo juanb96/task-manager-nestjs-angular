@@ -10,7 +10,7 @@ import { TaskModule } from './presentation/task.module';
     TaskModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/tasks{/*path}'],
+      exclude: ['/tasks{/*path}', '/docs{/*path}', '/docs-json'],
     }),
   ],
 })
