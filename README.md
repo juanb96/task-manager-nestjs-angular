@@ -144,6 +144,11 @@ corriendo en `http://localhost:3000` (ver sección Backend).
   "Calendario" ni "Estadísticas" en la sidebar (no las pide el enunciado y
   hubieran quedado como enlaces muertos), ni un avatar/usuario (el enunciado
   aclara que no se requiere autenticación).
+- **Paginación por columna del tablero** (6 tareas por página): cada
+  columna del Kanban pagina de forma independiente. El drag & drop calcula
+  el índice absoluto dentro del array completo de la columna (no solo el de
+  la página visible), así que mover una tarjeta entre columnas sigue
+  funcionando correctamente aunque haya más de una página.
 
 ## Qué haría distinto con más tiempo
 
