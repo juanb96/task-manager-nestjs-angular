@@ -9,3 +9,4 @@ proyecto se desarrolla en su propia rama y se integra a `main` vía PR.
 | #1   | chore/pr-tracking-doc | Documento de tracking de PRs | Mergeado | 2026-08-20 |
 | #2   | feat/backend-scaffold | Backend NestJS: patrón Repository, CRUD `/tasks`, validación, DI por token | Mergeado | 2026-08-20 |
 | #3   | feat/frontend-scaffold | Frontend Angular 22 standalone: TaskForm/TaskList/TaskItem, TaskService, filtro por estado, manejo de loading/error | Mergeado | 2026-08-20 |
+| #4   | feat/backend-task-priority | Backend: campo `priority` (low/medium/high) en Task, DTOs y tests | Esperando aprobación | 2026-08-20 |

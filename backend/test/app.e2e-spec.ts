@@ -30,10 +30,11 @@ describe('Tasks (e2e)', () => {
   it('supports the full create -> update -> delete flow', async () => {
     const createRes = await request(app.getHttpServer())
       .post('/tasks')
-      .send({ title: 'Test task', description: 'desc', status: 'pending' })
+      .send({ title: 'Test task', description: 'desc', status: 'pending', priority: 'high' })
       .expect(201);
 
     const id = createRes.body.id;
+    expect(createRes.body.priority).toBe('high');
 
     const updateRes = await request(app.getHttpServer())
       .put(`/tasks/${id}`)
@@ -42,9 +43,19 @@ describe('Tasks (e2e)', () => {
 
     expect(updateRes.body.title).toBe('Test task');
     expect(updateRes.body.status).toBe('completed');
+    expect(updateRes.body.priority).toBe('high');
 
     await request(app.getHttpServer()).delete(`/tasks/${id}`).expect(204);
     await request(app.getHttpServer()).get('/tasks').expect(200).expect([]);
+  });
+
+  it('/tasks (POST) defaults priority to medium when not provided', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/tasks')
+      .send({ title: 'No priority given' })
+      .expect(201);
+
+    expect(res.body.priority).toBe('medium');
   });
 
   it('/tasks (POST) rejects an invalid status with 400', () => {
