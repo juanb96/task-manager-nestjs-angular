@@ -149,6 +149,11 @@ corriendo en `http://localhost:3000` (ver sección Backend).
   el índice absoluto dentro del array completo de la columna (no solo el de
   la página visible), así que mover una tarjeta entre columnas sigue
   funcionando correctamente aunque haya más de una página.
+- **Desbordamiento de texto en las tarjetas**: título y descripción usan
+  `overflow-wrap: break-word` (para que una palabra larga sin espacios se
+  parta) + `-webkit-line-clamp` (2 líneas el título, 3 la descripción, con
+  "…") para que las tarjetas mantengan una altura consistente sin importar
+  cuánto texto tenga la tarea.
 
 ## Qué haría distinto con más tiempo
 
