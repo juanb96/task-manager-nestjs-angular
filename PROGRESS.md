@@ -11,4 +11,4 @@ proyecto se desarrolla en su propia rama y se integra a `main` vía PR.
 | #3   | feat/frontend-scaffold | Frontend Angular 22 standalone: TaskForm/TaskList/TaskItem, TaskService, filtro por estado, manejo de loading/error | Mergeado | 2026-08-20 |
 | #4   | feat/backend-task-priority | Backend: campo `priority` (low/medium/high) en Task, DTOs y tests | Mergeado | 2026-08-20 |
 | #5   | feat/frontend-kanban-redesign | Frontend: rediseño tipo tablero Kanban (sidebar, topbar, drag&drop, búsqueda, filtro por prioridad, modal) | Mergeado | 2026-08-20 |
-| #6   | feat/backend-sqlite-persistence | Backend: persistencia real con SQLite (`node:sqlite`), reemplaza el repositorio en memoria | Esperando aprobación | 2026-08-20 |
+| #6   | feat/backend-sqlite-persistence | Backend: persistencia real con SQLite (`node:sqlite`), reemplaza el repositorio en memoria | Mergeado | 2026-08-20 |
