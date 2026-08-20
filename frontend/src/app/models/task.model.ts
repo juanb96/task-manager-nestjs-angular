@@ -10,11 +10,24 @@ export const TASK_STATUS_LABELS: Record<TaskStatus, string> = {
   [TaskStatus.COMPLETED]: 'Completada',
 };
 
+export enum TaskPriority {
+  LOW = 'low',
+  MEDIUM = 'medium',
+  HIGH = 'high',
+}
+
+export const TASK_PRIORITY_LABELS: Record<TaskPriority, string> = {
+  [TaskPriority.LOW]: 'Baja',
+  [TaskPriority.MEDIUM]: 'Media',
+  [TaskPriority.HIGH]: 'Alta',
+};
+
 export interface Task {
   id: string;
   title: string;
   description: string;
   status: TaskStatus;
+  priority: TaskPriority;
   createdAt: string;
 }
 
@@ -22,10 +35,12 @@ export interface CreateTaskRequest {
   title: string;
   description?: string;
   status?: TaskStatus;
+  priority?: TaskPriority;
 }
 
 export interface UpdateTaskRequest {
   title?: string;
   description?: string;
   status?: TaskStatus;
+  priority?: TaskPriority;
 }

@@ -1,6 +1,14 @@
 import { Component, effect, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CreateTaskRequest, TASK_STATUS_LABELS, Task, TaskStatus, UpdateTaskRequest } from '../../models/task.model';
+import {
+  CreateTaskRequest,
+  TASK_PRIORITY_LABELS,
+  TASK_STATUS_LABELS,
+  Task,
+  TaskPriority,
+  TaskStatus,
+  UpdateTaskRequest,
+} from '../../models/task.model';
 
 @Component({
   selector: 'app-task-form',
@@ -17,6 +25,8 @@ export class TaskForm {
 
   readonly statusOptions = Object.values(TaskStatus);
   readonly statusLabels = TASK_STATUS_LABELS;
+  readonly priorityOptions = Object.values(TaskPriority);
+  readonly priorityLabels = TASK_PRIORITY_LABELS;
 
   private readonly fb = new FormBuilder();
 
@@ -24,6 +34,7 @@ export class TaskForm {
     title: ['', [Validators.required, Validators.maxLength(200)]],
     description: [''],
     status: [TaskStatus.PENDING, Validators.required],
+    priority: [TaskPriority.MEDIUM, Validators.required],
   });
 
   constructor() {
@@ -34,9 +45,15 @@ export class TaskForm {
           title: task.title,
           description: task.description,
           status: task.status,
+          priority: task.priority,
         });
       } else {
-        this.form.reset({ title: '', description: '', status: TaskStatus.PENDING });
+        this.form.reset({
+          title: '',
+          description: '',
+          status: TaskStatus.PENDING,
+          priority: TaskPriority.MEDIUM,
+        });
       }
     });
   }
@@ -58,7 +75,12 @@ export class TaskForm {
       this.save.emit({ id: editing.id, changes: value });
     } else {
       this.create.emit(value);
-      this.form.reset({ title: '', description: '', status: TaskStatus.PENDING });
+      this.form.reset({
+        title: '',
+        description: '',
+        status: TaskStatus.PENDING,
+        priority: TaskPriority.MEDIUM,
+      });
     }
   }
 

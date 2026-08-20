@@ -97,6 +97,16 @@ corriendo en `http://localhost:3000` (ver sección Backend).
 - **Tests con Vitest**: el schematic por defecto de Angular 22 (`@angular/build:unit-test`)
   ya no usa Karma/Jasmine sino Vitest; se mantiene esa configuración por
   defecto en vez de forzar Karma.
+- **Rediseño tipo tablero Kanban**: sidebar (Tablero / Todas las tareas, como
+  toggle de vista local, sin Angular Router — no había ninguna otra ruta que
+  justificara agregarlo), topbar con búsqueda y filtro por prioridad, y un
+  tablero de 3 columnas (una por estado) con drag & drop vía `@angular/cdk`
+  para cambiar el estado de una tarea arrastrándola entre columnas. El
+  formulario pasó a vivir en un modal en vez de estar siempre visible.
+- **Deliberadamente fuera de alcance**: no se agregaron páginas de
+  "Calendario" ni "Estadísticas" en la sidebar (no las pide el enunciado y
+  hubieran quedado como enlaces muertos), ni un avatar/usuario (el enunciado
+  aclara que no se requiere autenticación).
 
 ## Qué haría distinto con más tiempo
 

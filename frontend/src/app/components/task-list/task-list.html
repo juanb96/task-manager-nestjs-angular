@@ -18,7 +18,12 @@
   } @else {
     <div class="task-list__items">
       @for (task of filteredTasks; track task.id) {
-        <app-task-item [task]="task" (edit)="edit.emit($event)" (remove)="remove.emit($event)" />
+        <app-task-item
+          [task]="task"
+          [showStatus]="true"
+          (edit)="edit.emit($event)"
+          (remove)="remove.emit($event)"
+        />
       }
     </div>
   }
