@@ -20,3 +20,4 @@ proyecto se desarrolla en su propia rama y se integra a `main` vía PR.
 | #12  | test/backend-task-service-unit-tests | Tests unitarios de `TaskService` mockeando `ITaskRepository` (9 tests) | Mergeado | 2026-08-20 |
 | #13  | test/frontend-component-unit-tests | Tests unitarios de TaskForm/TaskList/TaskItem/TaskBoard/Sidebar/Topbar/TaskService (34 tests) | Mergeado | 2026-08-20 |
 | #14  | feat/backend-swagger-docs | Documentación interactiva de la API con Swagger (`/docs`), generada desde los DTOs y el controlador | Mergeado | 2026-08-20 |
+| #15  | fix/favicon-task-icon | Favicon: reemplaza el ícono por defecto de Angular por un check morado consistente con el logo del sidebar | Esperando aprobación | 2026-08-20 |
