@@ -221,3 +221,11 @@ corriendo en `http://localhost:3000` (ver sección Backend).
   resolvería esto sin herramientas externas.
 - **Autenticación/multiusuario**: el enunciado aclara que no se requiere,
   pero en un producto real cada usuario vería solo sus propias tareas.
+- **CORS sin restringir** (`app.enableCors()` sin opciones): aceptable para
+  correr local sin autenticación, pero en producción restringiría el
+  origen permitido a la URL real del frontend.
+- **Validación sin límites en `description` y `position`**: `title` tiene
+  `@MaxLength(200)`, pero `description` no tiene tope de longitud, y
+  `position` acepta cualquier número (un cliente podría mandar un valor
+  extremo y romper el orden). Le agregaría `@MaxLength` y un rango
+  razonable a `position`.
