@@ -44,6 +44,15 @@ cd ..
 docker-compose up
 ```
 
+`backend/scripts/seed.ts` corre con `ts-node` directo (usa `tsconfig.json`,
+no `tsconfig.build.json`), así que no pasa por `nest build`. **Bug real que
+encontramos**: al agregar `scripts/` sin excluirlo de `tsconfig.build.json`,
+`nest build` empezó a compilarlo también (nada lo excluía), lo que cambió
+la raíz común de compilación de `src/` a la carpeta del proyecto — el
+output pasó de `dist/main.js` a `dist/src/main.js`, rompiendo el `CMD`
+del Dockerfile en silencio. Se corrigió agregando `"scripts"` al `exclude`
+de `tsconfig.build.json`.
+
 ### Endpoints
 
 | Método | Ruta         | Descripción              |
