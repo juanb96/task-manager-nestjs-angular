@@ -33,8 +33,8 @@ npm run seed
 ```
 
 Carga 6 tareas de ejemplo (2 por estado) directo con el mismo repositorio
-que usa la app — sin pasar por HTTP. Si vas a usar Docker, corré el seed
-**antes** de `docker-compose up`, apuntando a la misma carpeta que el
+que usa la app — sin pasar por HTTP. Si se va a usar Docker, ejecutar el
+seed **antes** de `docker-compose up`, apuntando a la misma carpeta que el
 contenedor monta como volumen:
 
 ```bash
