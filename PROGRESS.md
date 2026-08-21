@@ -22,3 +22,4 @@ proyecto se desarrolla en su propia rama y se integra a `main` vía PR.
 | #14  | feat/backend-swagger-docs | Documentación interactiva de la API con Swagger (`/docs`), generada desde los DTOs y el controlador | Mergeado | 2026-08-20 |
 | #15  | fix/favicon-task-icon | Favicon: reemplaza el ícono por defecto de Angular por un check morado consistente con el logo del sidebar | Mergeado | 2026-08-20 |
 | #16  | feat/backend-seed-script | Script `npm run seed` para cargar tareas de ejemplo (local y Docker) sin arrancar la app vacía | Mergeado | 2026-08-20 |
+| #17  | fix/topbar-filter-outside-click | Fix: el menú de filtro por prioridad no se cerraba al clickear afuera | Mergeado | 2026-08-20 |
