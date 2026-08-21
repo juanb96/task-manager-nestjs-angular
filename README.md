@@ -229,3 +229,12 @@ corriendo en `http://localhost:3000` (ver sección Backend).
   `position` acepta cualquier número (un cliente podría mandar un valor
   extremo y romper el orden). Le agregaría `@MaxLength` y un rango
   razonable a `position`.
+- **Drag & drop combinado con búsqueda/filtro activos**: `TaskBoard` calcula
+  la nueva `position` mirando solo los vecinos *visibles* — si hay una tarea
+  oculta por el filtro de búsqueda/prioridad justo entre las dos tarjetas
+  visibles donde soltás, el orden puede quedar mal ubicado respecto a esa
+  tarea oculta (se nota recién al limpiar el filtro). Mismo problema si
+  soltás en una columna que se ve vacía solo por el filtro: la posición cae
+  al final (timestamp) en vez de considerar las tareas ocultas. Para
+  arreglarlo de raíz, el cálculo de posición debería mirar el array
+  completo de la columna (sin filtrar), no solo lo renderizado.
