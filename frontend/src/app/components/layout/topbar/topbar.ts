@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, HostListener, input, output, signal } from '@angular/core';
 import { TASK_PRIORITY_LABELS, TaskPriority } from '../../../models/task.model';
 
 export type PriorityFilter = TaskPriority | 'all';
@@ -28,6 +28,17 @@ export class Topbar {
 
   toggleFilter(): void {
     this.filterOpen.update((open) => !open);
+  }
+
+  // Closes the menu on any click outside it — otherwise it stays open
+  // indefinitely if you click the search box, a task card, or anywhere else.
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.filterOpen()) return;
+    const target = event.target as HTMLElement;
+    if (!target.closest('.filter-dropdown')) {
+      this.filterOpen.set(false);
+    }
   }
 
   selectPriority(value: PriorityFilter): void {
