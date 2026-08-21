@@ -241,12 +241,12 @@ corriendo en `http://localhost:3000` (ver sección Backend).
 - **Drag & drop combinado con búsqueda/filtro activos**: `TaskBoard` calcula
   la nueva `position` mirando solo los vecinos *visibles* — si hay una tarea
   oculta por el filtro de búsqueda/prioridad justo entre las dos tarjetas
-  visibles donde soltás, el orden puede quedar mal ubicado respecto a esa
-  tarea oculta (se nota recién al limpiar el filtro). Mismo problema si
-  soltás en una columna que se ve vacía solo por el filtro: la posición cae
-  al final (timestamp) en vez de considerar las tareas ocultas. Para
-  arreglarlo de raíz, el cálculo de posición debería mirar el array
-  completo de la columna (sin filtrar), no solo lo renderizado.
+  visibles donde se suelta la tarjeta, el orden puede quedar mal ubicado
+  respecto a esa tarea oculta (se nota recién al limpiar el filtro). Mismo
+  problema al soltar en una columna que se ve vacía solo por el filtro: la
+  posición cae al final (timestamp) en vez de considerar las tareas
+  ocultas. Para arreglarlo de raíz, el cálculo de posición debería mirar el
+  array completo de la columna (sin filtrar), no solo lo renderizado.
 - **`pagedTasks()` sin memoizar** (`TaskBoard`): es un método plano, así que
   reasigna un array nuevo con `.slice()` en cada ciclo de detección de
   cambios (el template lo llama 2 veces por columna). A la escala de esta
