@@ -207,10 +207,6 @@ corriendo en `http://localhost:3000` (ver sección Backend).
   tablero de 3 columnas (una por estado) con drag & drop vía `@angular/cdk`
   para cambiar el estado de una tarea arrastrándola entre columnas. El
   formulario pasó a vivir en un modal en vez de estar siempre visible.
-- **Deliberadamente fuera de alcance**: no se agregaron páginas de
-  "Calendario" ni "Estadísticas" en la sidebar (no las pide el enunciado y
-  hubieran quedado como enlaces muertos), ni un avatar/usuario (el enunciado
-  aclara que no se requiere autenticación).
 - **Paginación por columna del tablero** (6 tareas por página): cada
   columna del Kanban pagina de forma independiente. El drag & drop calcula
   el índice absoluto dentro del array completo de la columna (no solo el de
